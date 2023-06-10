@@ -1,0 +1,72 @@
+.section {
+  padding: 0.5rem 0;
+  background-color: #1f2937;
+  border-radius: 0.25rem;
+  color: #f1f5f9;
+  cursor: default;
+  overflow: auto;
+  width: 100%;
+}
+
+.md {
+  display: block;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hideMd {
+  display: none;
+}
+
+.noData {
+  background-color: #1f2937;
+  border-radius: 0.25rem;
+  color: #f1f5f9;
+  padding: 1rem;
+  text-align: center;
+}
+
+.mobileTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .mobileData {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .mobileSec {
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.tableTr {
+  overflow: initial;
+  margin-top: 4px !important;
+  position: relative;
+
+  .tableTd {
+    padding: 1rem;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  &:hover {
+    background-color: #374151;
+  }
+}
