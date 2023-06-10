@@ -20,8 +20,8 @@ const Table = <T,>({ columns, data, loading }: Props<T>) => {
     <section className={styles.section}>
       {loading ? (
         <Skeleton
-          baseColor="#e2e2e2"
-          highlightColor="#d6d6d6"
+          baseColor="#1f2937"
+          highlightColor="#374151"
           style={{ marginTop: "8px", height: "50px" }}
           count={10}
           duration={4}

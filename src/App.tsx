@@ -1,63 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "./components";
 import { TPayload } from "types";
+import { WS } from "constants/config";
 import styles from "./App.module.scss";
+import { WSService } from "services";
 
 function App() {
-  const data = [
-    {
-      e: "24hrTicker", // Event type
-      E: 123456789, // Event Ime
-      s: "BTCUSDT",
-      p: "0.0015", // Price change
-      P: "250.00",
-      w: "0.0018", // Weighted average price"c": "0.0025", ***** Last price *****
-      Q: "10",
-      // Last quanIty
-      o: "0.0010", // Open price
-      h: "0.0025", // High price
-      l: "0.0010", // Low price
-      v: "10000",
-      // Total traded base asset volume
-      q: "18",
-      // Total traded quote asset volume
-      O: 0,
-      // StaIsIcs open Ime
-      C: 86400000, // StaIsIcs close Ime
-      F: 0,
-      // First trade ID
-      L: 18150,
-      // Last trade Id
-      n: 18151,
-      // Total number of trades
-    },
-    {
-      e: "24hrTicker", // Event type
-      E: 123456789, // Event Ime
-      s: "ETHUSDT",
-      p: "0.0015", // Price change
-      P: "250.00",
-      w: "0.0018", // Weighted average price"c": "0.0025", ***** Last price *****
-      Q: "10",
-      // Last quanIty
-      o: "0.0010", // Open price
-      h: "0.0025", // High price
-      l: "0.0010", // Low price
-      v: "10000",
-      // Total traded base asset volume
-      q: "18",
-      // Total traded quote asset volume
-      O: 0,
-      // StaIsIcs open Ime
-      C: 86400000, // StaIsIcs close Ime
-      F: 0,
-      // First trade ID
-      L: 18150,
-      // Last trade Id
-      n: 18151,
-      // Total number of trades
-    },
-  ];
+  const [payload, setPayload] = useState<TPayload[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    const ws = new WSService();
+
+    ws.connect(WS, (payload) => {
+      setPayload(payload);
+      setLoaded(true);
+    });
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   const columns = [
     {
       id: 1,
@@ -65,7 +29,7 @@ function App() {
       render: (item: TPayload) => {
         return (
           <p className={styles.cols}>
-            <span className={styles.bold}>BTCUSDT</span>
+            <span className={styles.bold}>{item.s}</span>
             <span className={styles.perpetual}>Perpetual</span>
           </p>
         );
@@ -77,11 +41,11 @@ function App() {
       render: (item: TPayload) => {
         return (
           <p className={styles.cols}>
-            <span className={styles.bold}>20362.80</span>
-            {true ? (
-              <span className={styles.increase}>+2.08%</span>
+            <span className={styles.bold}>{item.c}</span>
+            {item.P.includes("-") ? (
+              <span className={styles.decrease}>{item.P}%</span>
             ) : (
-              <span className={styles.decrease}>-2.08%</span>
+              <span className={styles.increase}>{item.P}%</span>
             )}
           </p>
         );
@@ -89,8 +53,10 @@ function App() {
     },
   ];
   return (
-    <div className="App">
-      <Table columns={columns} data={data} loading={false} />
+    <div className={styles.app}>
+      <div className={styles.section}>
+        <Table columns={columns} data={payload} loading={!loaded} />
+      </div>
     </div>
   );
 }
