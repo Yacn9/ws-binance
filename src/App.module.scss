@@ -1,0 +1,21 @@
+.cols {
+  display: flex;
+  flex-direction: column;
+
+  .bold {
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  .perpetual {
+    color: gray;
+  }
+
+  .decrease {
+    color: #dc2626;
+  }
+
+  .increase {
+    color: #16a34a;
+  }
+}
